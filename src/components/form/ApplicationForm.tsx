@@ -131,15 +131,7 @@ export function ApplicationForm() {
   }
 
   if (success) {
-    return (
-      <SuccessState
-        onReset={() => {
-          setSuccess(false);
-          setFormError(null);
-          setErrors({});
-        }}
-      />
-    );
+    return <SuccessState />;
   }
 
   return (

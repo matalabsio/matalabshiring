@@ -18,6 +18,10 @@ export const metadata: Metadata = {
   title: "Developer Internship | Mata Labs",
   description:
     "Apply for a 3–6 month fresh graduate internship in website and app development at Mata Labs — with a chance of PPO based on performance.",
+  icons: {
+    icon: [{ url: "/icon.png", type: "image/png" }],
+    apple: [{ url: "/apple-icon.png", type: "image/png" }],
+  },
 };
 
 export default function RootLayout({

@@ -1,8 +1,4 @@
-type SuccessStateProps = {
-  onReset?: () => void;
-};
-
-export function SuccessState({ onReset }: SuccessStateProps) {
+export function SuccessState() {
   return (
     <div
       className="flex flex-col items-center px-6 py-14 text-center sm:px-10 sm:py-16"
@@ -38,16 +34,6 @@ export function SuccessState({ onReset }: SuccessStateProps) {
         Thank you for applying to the Mata Labs internship. We&apos;ll review
         your profile and be in touch soon.
       </p>
-
-      {onReset ? (
-        <button
-          type="button"
-          onClick={onReset}
-          className="mt-9 cursor-pointer rounded-lg border border-line px-5 py-2.5 text-sm font-medium text-ink transition-colors duration-200 hover:border-navy hover:bg-surface-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-navy focus-visible:ring-offset-2"
-        >
-          Submit another application
-        </button>
-      ) : null}
     </div>
   );
 }
