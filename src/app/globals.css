@@ -1,0 +1,80 @@
+@import "tailwindcss";
+
+:root {
+  --navy: #0f1853;
+  --navy-deep: #0a123f;
+  --navy-mid: #1a2768;
+  --navy-soft: #24357a;
+  --surface: #ffffff;
+  --surface-muted: #f4f6fb;
+  --ink: #0f1853;
+  --ink-muted: #5b6b8c;
+  --line: rgba(10, 25, 78, 0.12);
+  --accent: #c4a35a;
+  --accent-soft: #e8d7a8;
+  --danger: #b42318;
+  --danger-bg: #fef3f2;
+}
+
+@theme inline {
+  --color-navy: var(--navy);
+  --color-navy-deep: var(--navy-deep);
+  --color-navy-mid: var(--navy-mid);
+  --color-navy-soft: var(--navy-soft);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-line: var(--line);
+  --color-accent: var(--accent);
+  --color-accent-soft: var(--accent-soft);
+  --color-danger: var(--danger);
+  --color-danger-bg: var(--danger-bg);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+}
+
+html {
+  color-scheme: light;
+}
+
+body {
+  background: var(--navy-deep);
+  color: var(--ink);
+  font-family: var(--font-body), system-ui, sans-serif;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 45%, white);
+  color: var(--navy-deep);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.page-atmosphere {
+  background:
+    radial-gradient(
+      ellipse 80% 50% at 50% -10%,
+      rgba(26, 50, 114, 0.55),
+      transparent 60%
+    ),
+    linear-gradient(180deg, var(--navy) 0%, var(--navy-deep) 100%);
+}
+
+.hairline {
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.45),
+    transparent
+  );
+}
