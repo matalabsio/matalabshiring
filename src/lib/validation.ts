@@ -37,6 +37,18 @@ function isGoogleDriveUrl(value: string): boolean {
   }
 }
 
+function isValidEmail(value: string): boolean {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
+/** Accepts +91XXXXXXXXXX, 10-digit Indian numbers, or international with + */
+function isValidWhatsAppNumber(value: string): boolean {
+  const cleaned = value.replace(/[\s()-]/g, "");
+  if (/^\+[1-9]\d{7,14}$/.test(cleaned)) return true;
+  if (/^[6-9]\d{9}$/.test(cleaned)) return true;
+  return false;
+}
+
 function trim(value: unknown): string {
   return typeof value === "string" ? value.trim() : "";
 }
@@ -49,6 +61,8 @@ export function validateApplication(raw: unknown): ValidationResult {
   const errors: FieldErrors = {};
 
   const fullName = trim(input.fullName);
+  const email = trim(input.email).toLowerCase();
+  const whatsappNumber = trim(input.whatsappNumber);
   const graduationYear = trim(input.graduationYear);
   const developmentPreference = trim(input.developmentPreference);
   const techStack = trim(input.techStack);
@@ -65,6 +79,21 @@ export function validateApplication(raw: unknown): ValidationResult {
     errors.fullName = "Please enter your full name.";
   } else if (fullName.length > 100) {
     errors.fullName = "Name must be 100 characters or fewer.";
+  }
+
+  if (!isNonEmptyString(email)) {
+    errors.email = "Email is required.";
+  } else if (!isValidEmail(email)) {
+    errors.email = "Please enter a valid email address.";
+  } else if (email.length > 254) {
+    errors.email = "Email must be 254 characters or fewer.";
+  }
+
+  if (!isNonEmptyString(whatsappNumber)) {
+    errors.whatsappNumber = "WhatsApp number is required.";
+  } else if (!isValidWhatsAppNumber(whatsappNumber)) {
+    errors.whatsappNumber =
+      "Enter a valid WhatsApp number (e.g. +919876543210 or 9876543210).";
   }
 
   if (!isNonEmptyString(graduationYear)) {
@@ -149,6 +178,8 @@ export function validateApplication(raw: unknown): ValidationResult {
 
   const data: ApplicationInput = {
     fullName,
+    email,
+    whatsappNumber: whatsappNumber.replace(/[\s()-]/g, ""),
     graduationYear,
     developmentPreference,
     techStack,

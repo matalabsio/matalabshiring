@@ -1,12 +1,12 @@
 import { randomUUID } from "crypto";
-import { createApplicationPage } from "./notion";
+import { appendApplicationRow } from "./sheets";
 import type { Application, ApplicationInput } from "./types";
 
 /**
  * Application persistence layer.
  *
- * Writes each submission to Notion (source of truth) and keeps an in-memory
- * copy for local debugging. See `.env.example` for NOTION_* variables.
+ * Appends each submission to Google Sheets (source of truth) and keeps an
+ * in-memory copy for local debugging. See `.env.example` / docs/GOOGLE_SHEETS_SETUP.md.
  */
 
 const applications: Application[] = [];
@@ -15,29 +15,23 @@ export async function saveApplication(
   input: ApplicationInput,
   meta?: { ip?: string },
 ): Promise<Application> {
-  const createdAt = new Date().toISOString();
-
-  let notionPageId: string | undefined;
-
-  try {
-    const pageId = await createApplicationPage(input, { createdAt });
-    if (pageId) {
-      notionPageId = pageId;
-    }
-  } catch (error) {
-    console.error("[applications] Notion write failed", error);
-    throw new Error(
-      "Unable to save your application to Notion. Please try again.",
-    );
-  }
-
   const application: Application = {
     ...input,
     id: randomUUID(),
-    createdAt,
+    createdAt: new Date().toISOString(),
     ip: meta?.ip,
-    notionPageId,
   };
+
+  try {
+    await appendApplicationRow(application);
+  } catch (error) {
+    console.error("[applications] Google Sheets write failed", error);
+    throw error instanceof Error
+      ? error
+      : new Error(
+          "Unable to save your application to Google Sheets. Please try again.",
+        );
+  }
 
   applications.push(application);
 
@@ -45,7 +39,6 @@ export async function saveApplication(
     console.info("[applications] saved", {
       id: application.id,
       fullName: application.fullName,
-      notionPageId: application.notionPageId ?? null,
     });
   }
 

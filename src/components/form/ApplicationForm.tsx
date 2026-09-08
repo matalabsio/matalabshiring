@@ -22,6 +22,8 @@ import { TextInput } from "./TextInput";
 
 const INITIAL_VALUES: ApplicationInput = {
   fullName: "",
+  email: "",
+  whatsappNumber: "",
   graduationYear: "",
   developmentPreference: "",
   techStack: "",
@@ -159,6 +161,41 @@ export function ApplicationForm() {
             placeholder="Jane Doe"
             value={values.fullName}
             onChange={(e) => updateField("fullName", e.target.value)}
+          />
+        </FormField>
+
+        <FormField
+          id={`${formId}-email`}
+          label="Email ID"
+          error={errors.email}
+        >
+          <TextInput
+            {...fieldProps("email")}
+            name="email"
+            type="email"
+            inputMode="email"
+            autoComplete="email"
+            placeholder="jane@example.com"
+            value={values.email}
+            onChange={(e) => updateField("email", e.target.value)}
+          />
+        </FormField>
+
+        <FormField
+          id={`${formId}-whatsappNumber`}
+          label="WhatsApp Number"
+          hint="Include country code if outside India (e.g. +919876543210)."
+          error={errors.whatsappNumber}
+        >
+          <TextInput
+            {...fieldProps("whatsappNumber", { hasHint: true })}
+            name="whatsappNumber"
+            type="tel"
+            inputMode="tel"
+            autoComplete="tel"
+            placeholder="+919876543210"
+            value={values.whatsappNumber}
+            onChange={(e) => updateField("whatsappNumber", e.target.value)}
           />
         </FormField>
 

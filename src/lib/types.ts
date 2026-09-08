@@ -29,6 +29,8 @@ export type HyderabadWorkOption =
 
 export type ApplicationInput = {
   fullName: string;
+  email: string;
+  whatsappNumber: string;
   graduationYear: string;
   developmentPreference: string;
   techStack: string;
@@ -44,7 +46,6 @@ export type Application = ApplicationInput & {
   id: string;
   createdAt: string;
   ip?: string;
-  notionPageId?: string;
 };
 
 export type FieldErrors = Partial<Record<keyof ApplicationInput, string>>;

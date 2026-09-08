@@ -89,7 +89,9 @@ export async function POST(request: Request) {
     console.error("[api/applications] failed to save", error);
 
     const message =
-      error instanceof Error && error.message.includes("Notion")
+      error instanceof Error &&
+      (error.message.includes("Google Sheets") ||
+        error.message.includes("Sheets"))
         ? error.message
         : "Unable to save your application. Please try again.";
 
